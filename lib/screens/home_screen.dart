@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:toonflix/services/api_service.dart';
 import 'package:toonflix/widgets/webtoon_widget.dart';
 
@@ -29,11 +30,11 @@ class HomeScreen extends StatelessWidget {
             return Column(
               children: [
                 const SizedBox(
-                  height: 80,
-                ),
+                    // height: 80,
+                    ),
                 Expanded(
-                  // 리스트 뷰의 남는 공간을 채워주기 위해 사용 (Column은 높이 계산이 필요하기에)
                   child: makeList(snapshot),
+                  // 리스트 뷰의 남는 공간을 채워주기 위해 사용 (Column은 높이 계산이 필요하기에)
                 ),
               ],
             );
@@ -46,19 +47,38 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  ListView makeList(AsyncSnapshot<List<WebtoonModel>> snapshot) {
-    return ListView.separated(
-      scrollDirection: Axis.horizontal,
-      itemCount: snapshot.data!.length,
+  GridView makeList(AsyncSnapshot<List<WebtoonModel>> snapshot) {
+    return GridView.builder(
+      itemCount: snapshot.data?.length ?? 0,
       padding: const EdgeInsets.symmetric(
-        vertical: 10,
         horizontal: 10,
+        vertical: 30,
+      ),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 1 / 1.7,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 30,
       ),
       itemBuilder: (context, index) {
         var webtoon = snapshot.data![index];
-        return Webtoon(title: webtoon.title, thumb: webtoon.thumb, id: webtoon.id);
+
+        return Webtoon(
+            title: webtoon.title, thumb: webtoon.thumb, id: webtoon.id);
       },
-      separatorBuilder: (context, index) => const SizedBox(width: 40),
     );
+    // return ListView.separated(
+    //   scrollDirection: Axis.vertical,
+    //   itemCount: snapshot.data!.length,
+    //   padding: const EdgeInsets.symmetric(
+    //     vertical: 10,
+    //     horizontal: 10,
+    //   ),
+    //   itemBuilder: (context, index) {
+    //     var webtoon = snapshot.data![index];
+    //     return Webtoon(title: webtoon.title, thumb: webtoon.thumb, id: webtoon.id);
+    //   },
+    //   separatorBuilder: (context, index) => const SizedBox(width: 40),
+    // );
   }
 }

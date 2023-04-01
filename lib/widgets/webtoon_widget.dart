@@ -40,7 +40,7 @@ class Webtoon extends StatelessWidget {
                     BoxShadow(
                       blurRadius: 15,
                       offset: const Offset(10, 10),
-                      color: Colors.black.withOpacity(0.3),
+                      color: Colors.black.withOpacity(0.2),
                     ),
                   ]),
               child: Image.network(thumb),
@@ -52,8 +52,10 @@ class Webtoon extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              fontSize: 22,
+              fontSize: 16,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
